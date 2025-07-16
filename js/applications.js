@@ -487,14 +487,28 @@ function renderTable(applications) {
             selectRow(this, app.id);
         });
         
-        // Create row HTML with application data
+        // Truncate publisher to 20 characters
+        const truncatedPublisher = app.publisher.length > 20 
+            ? app.publisher.substring(0, 20) + '...' 
+            : app.publisher;
+        
+        // Truncate description for display (50 characters max)
+        const truncatedDescription = app.description && app.description.length > 50
+            ? app.description.substring(0, 50) + '...'
+            : app.description;
+        
+        // Create row HTML with modifications
         row.innerHTML = `
             <td>${globalIndex}</td>
-            <td><strong>${app.app_name}</strong></td>
-            <td><span class="badge bg-secondary">${app.app_type}</span></td>
-            <td>${app.current_version}</td>
-            <td>${app.publisher}</td>
             <td>
+                <div>
+                    <strong>${app.app_name}</strong>
+                    ${app.description ? `<br><small class="text-muted">${truncatedDescription}</small>` : ''}
+                </div>
+            </td>
+            <td>${app.current_version}</td>
+            <td title="${app.publisher}">${truncatedPublisher}</td>
+            <td class="text-end">
                 <button type="button" class="btn btn-outline-primary btn-sm" data-action="edit-app" data-id="${app.id}" title="Edit">
                     <i class="bi bi-pencil"></i>
                 </button>
