@@ -115,12 +115,6 @@ function handleApplicationsClick(e) {
         case 'refresh-table':
             refreshTable();
             break;
-        case 'clear-form':
-            clearForm();
-            break;
-        case 'load-sample':
-            loadSampleData();
-            break;
         case 'clear-search':
             clearSearch();
             break;
@@ -255,68 +249,6 @@ function extractFormData(form) {
     };
 }
 
-/**
- * Loads sample data into the form for testing purposes
- * Populates all form fields with predefined sample values
- */
-function loadSampleData() {
-    const sampleData = {
-        app_name: "notepad",
-        app_type: "windows",
-        current_version: "1.0.0",
-        released_date: "2025-01-01",
-        publisher: "Microsoft",
-        description: "Simple text editor",
-        download_link: "https://microsoft.com/notepad",
-        enable_tracking: true,
-        track_usage: true,
-        track_location: false,
-        track_cm: false,
-        track_intr: 1,
-        registered_date: "2025-01-01"
-    };
-    
-    // Populate form fields with sample data
-    Object.keys(sampleData).forEach(key => {
-        const element = document.querySelector(`[name="${key}"]`);
-        if (element) {
-            if (element.type === 'checkbox') {
-                element.checked = sampleData[key];
-            } else {
-                element.value = sampleData[key];
-            }
-        }
-    });
-    
-    // Trigger tracking options visibility
-    const enableTrackingCheckbox = document.getElementById('enableTracking');
-    if (enableTrackingCheckbox) {
-        enableTrackingCheckbox.dispatchEvent(new Event('change'));
-    }
-}
-
-/**
- * Clears all form fields and resets validation state
- * Hides tracking options and removes validation classes
- */
-function clearForm() {
-    const form = document.getElementById('applicationForm');
-    if (!form) return;
-
-    form.reset();
-    
-    // Hide tracking options
-    const trackingOptions = document.getElementById('trackingOptions');
-    if (trackingOptions) {
-        trackingOptions.style.display = 'none';
-    }
-    
-    // Remove validation classes
-    form.classList.remove('was-validated');
-    
-    // Reset to create mode
-    setFormMode('create');
-}
 
 /**
  * Sets the form mode (create or edit) and updates UI accordingly
@@ -338,6 +270,29 @@ function setFormMode(mode, appId = null) {
     }
     
     console.log(`Form mode set to: ${mode}`, appId ? `(editing ID: ${appId})` : '');
+}
+
+/**
+ * Resets form to create mode after successful save/update
+ * Clears all form fields and resets validation state
+ */
+function resetFormToCreateMode() {
+    const form = document.getElementById('applicationForm');
+    if (!form) return;
+
+    form.reset();
+    
+    // Hide tracking options
+    const trackingOptions = document.getElementById('trackingOptions');
+    if (trackingOptions) {
+        trackingOptions.style.display = 'none';
+    }
+    
+    // Remove validation classes
+    form.classList.remove('was-validated');
+    
+    // Reset to create mode
+    setFormMode('create');
 }
 
 /**
@@ -425,8 +380,8 @@ async function saveApplication(applicationData) {
             alert('Application saved successfully!');
         }
         
-        // Clear form and refresh UI
-        clearForm();
+        // Reset form and refresh UI
+        resetFormToCreateMode();
         loadTableData(); // Refresh table to show updated data
         
         console.log(`Application ${isEditing ? 'updated' : 'saved'}:`, result);
