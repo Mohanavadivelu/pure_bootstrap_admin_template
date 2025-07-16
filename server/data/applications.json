@@ -1,0 +1,245 @@
+{
+  "applications": [
+    {
+      "id": 1,
+      "app_name": "Notepad",
+      "app_type": "windows",
+      "current_version": "1.0.0",
+      "publisher": "Microsoft",
+      "released_date": "2025-01-01",
+      "description": "Simple text editor",
+      "download_link": "https://microsoft.com/notepad",
+      "enable_tracking": true,
+      "track": {
+        "usage": true,
+        "location": false,
+        "cpu_memory": {
+          "track_cm": false,
+          "track_intr": 1
+        }
+      },
+      "registered_date": "2025-01-01"
+    },
+    {
+      "id": 2,
+      "app_name": "Calculator",
+      "app_type": "windows",
+      "current_version": "2.1.0",
+      "publisher": "Microsoft",
+      "released_date": "2024-12-15",
+      "description": "Basic calculator app",
+      "download_link": "https://microsoft.com/calculator",
+      "enable_tracking": false,
+      "track": {
+        "usage": false,
+        "location": false,
+        "cpu_memory": {
+          "track_cm": false,
+          "track_intr": 1
+        }
+      },
+      "registered_date": "2024-12-15"
+    },
+    {
+      "id": 3,
+      "app_name": "Chrome",
+      "app_type": "web",
+      "current_version": "120.0.0.1",
+      "released_date": "2024-11-20",
+      "publisher": "Google",
+      "description": "Web browser",
+      "download_link": "https://google.com/chrome",
+      "enable_tracking": true,
+      "track": {
+        "usage": true,
+        "location": true,
+        "cpu_memory": {
+          "track_cm": true,
+          "track_intr": 5
+        }
+      },
+      "registered_date": "2024-11-20"
+    },
+    {
+      "id": 4,
+      "app_name": "VS Code",
+      "app_type": "windows",
+      "current_version": "1.85.0",
+      "publisher": "Microsoft",
+      "released_date": "2024-10-30",
+      "description": "Code editor",
+      "download_link": "https://code.visualstudio.com",
+      "enable_tracking": true,
+      "track": {
+        "usage": true,
+        "location": false,
+        "cpu_memory": {
+          "track_cm": true,
+          "track_intr": 10
+        }
+      },
+      "registered_date": "2024-10-30"
+    },
+    {
+      "id": 5,
+      "app_name": "Photoshop",
+      "app_type": "windows",
+      "current_version": "25.0.0",
+      "publisher": "Adobe",
+      "released_date": "2024-09-15",
+      "description": "Image editing software",
+      "download_link": "https://adobe.com/photoshop",
+      "enable_tracking": false,
+      "track": {
+        "usage": false,
+        "location": false,
+        "cpu_memory": {
+          "track_cm": false,
+          "track_intr": 1
+        }
+      },
+      "registered_date": "2024-09-15"
+    },
+    {
+      "id": 6,
+      "app_name": "Slack",
+      "app_type": "web",
+      "current_version": "4.35.0",
+      "publisher": "Slack Technologies",
+      "released_date": "2024-08-10",
+      "description": "Team communication",
+      "download_link": "https://slack.com",
+      "enable_tracking": true,
+      "track": {
+        "usage": true,
+        "location": false,
+        "cpu_memory": {
+          "track_cm": false,
+          "track_intr": 1
+        }
+      },
+      "registered_date": "2024-08-10"
+    },
+    {
+      "id": 7,
+      "app_name": "Spotify",
+      "app_type": "windows",
+      "current_version": "1.2.25",
+      "publisher": "Spotify AB",
+      "released_date": "2024-07-05",
+      "description": "Music streaming",
+      "download_link": "https://spotify.com",
+      "enable_tracking": true,
+      "track": {
+        "usage": true,
+        "location": true,
+        "cpu_memory": {
+          "track_cm": false,
+          "track_intr": 1
+        }
+      },
+      "registered_date": "2024-07-05"
+    },
+    {
+      "id": 8,
+      "app_name": "Discord",
+      "app_type": "windows",
+      "current_version": "1.0.9",
+      "publisher": "Discord Inc.",
+      "released_date": "2024-06-20",
+      "description": "Voice and text chat",
+      "download_link": "https://discord.com",
+      "enable_tracking": false,
+      "track": {
+        "usage": false,
+        "location": false,
+        "cpu_memory": {
+          "track_cm": false,
+          "track_intr": 1
+        }
+      },
+      "registered_date": "2024-06-20"
+    },
+    {
+      "id": 9,
+      "app_name": "Zoom",
+      "app_type": "windows",
+      "current_version": "5.16.0",
+      "publisher": "Zoom Video Communications",
+      "released_date": "2024-05-12",
+      "description": "Video conferencing",
+      "download_link": "https://zoom.us",
+      "enable_tracking": true,
+      "track": {
+        "usage": true,
+        "location": false,
+        "cpu_memory": {
+          "track_cm": true,
+          "track_intr": 15
+        }
+      },
+      "registered_date": "2024-05-12"
+    },
+    {
+      "id": 10,
+      "app_name": "Firefox",
+      "app_type": "web",
+      "current_version": "121.0.1",
+      "released_date": "2024-04-18",
+      "publisher": "Mozilla",
+      "description": "Web browser",
+      "download_link": "https://mozilla.org/firefox",
+      "enable_tracking": false,
+      "track": {
+        "usage": false,
+        "location": false,
+        "cpu_memory": {
+          "track_cm": false,
+          "track_intr": 1
+        }
+      },
+      "registered_date": "2024-04-18"
+    },
+    {
+      "id": 11,
+      "app_name": "Telegram",
+      "app_type": "windows",
+      "current_version": "4.12.0",
+      "publisher": "Telegram FZ-LLC",
+      "released_date": "2024-03-25",
+      "description": "Messaging app",
+      "download_link": "https://telegram.org",
+      "enable_tracking": true,
+      "track": {
+        "usage": true,
+        "location": true,
+        "cpu_memory": {
+          "track_cm": false,
+          "track_intr": 1
+        }
+      },
+      "registered_date": "2024-03-25"
+    },
+    {
+      "id": 12,
+      "app_name": "VLC Player",
+      "app_type": "windows",
+      "current_version": "3.0.18",
+      "publisher": "VideoLAN",
+      "released_date": "2024-02-14",
+      "description": "Media player",
+      "download_link": "https://videolan.org/vlc",
+      "enable_tracking": false,
+      "track": {
+        "usage": false,
+        "location": false,
+        "cpu_memory": {
+          "track_cm": false,
+          "track_intr": 1
+        }
+      },
+      "registered_date": "2024-02-14"
+    }
+  ],
+  "next_id": 13
+}

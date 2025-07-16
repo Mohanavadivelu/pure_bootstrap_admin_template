@@ -14,7 +14,10 @@ export function loadPage(page, clickedLink) {
                 clickedLink.classList.add('active');
             } else {
                 // Activate the dashboard link by default
-                document.querySelector('#left-navbar-container .nav-link[data-page="content/dashboard.html"]').classList.add('active');
+                const dashboardLink = document.querySelector('#left-navbar-container .nav-link[data-page="content/dashboard.html"]');
+                if (dashboardLink) {
+                    dashboardLink.classList.add('active');
+                }
             }
         });
 }

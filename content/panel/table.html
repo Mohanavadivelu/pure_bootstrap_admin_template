@@ -1,0 +1,382 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Applications Table</h2>
+                <button type="button" class="btn btn-primary" onclick="refreshTable()">
+                    <i class="bi bi-arrow-clockwise me-1"></i>
+                    Refresh
+                </button>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search applications...">
+                        <button class="btn btn-outline-secondary" type="button" onclick="clearSearch()">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <label for="itemsPerPage" class="form-label me-2 mb-0">Items per page:</label>
+                        <select class="form-select" id="itemsPerPage" style="width: auto;">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="text-center py-4" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading applications...</p>
+            </div>
+            
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">App Name</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Version</th>
+                            <th scope="col">Publisher</th>
+                            <th scope="col">Released Date</th>
+                            <th scope="col">Tracking</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Table rows will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Empty State -->
+            <div id="emptyState" class="text-center py-5" style="display: none;">
+                <i class="bi bi-inbox display-1 text-muted"></i>
+                <h4 class="mt-3">No applications found</h4>
+                <p class="text-muted">Try adjusting your search criteria or add new applications.</p>
+            </div>
+            
+            <!-- Pagination Info and Controls -->
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <p id="paginationInfo" class="text-muted mb-0">Showing 0 to 0 of 0 entries</p>
+                </div>
+                <div class="col-md-6">
+                    <nav aria-label="Table pagination">
+                        <ul class="pagination justify-content-end mb-0" id="paginationControls">
+                            <!-- Pagination buttons will be populated here -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Global variables
+let currentPage = 1;
+let itemsPerPage = 10;
+let totalItems = 0;
+let totalPages = 0;
+let currentSearch = '';
+let selectedRowId = null;
+let searchTimeout = null;
+
+// Initialize table on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadTableData();
+    
+    // Search input event listener with debouncing
+    document.getElementById('searchInput').addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            currentSearch = this.value.trim();
+            currentPage = 1;
+            loadTableData();
+        }, 300);
+    });
+    
+    // Items per page change event
+    document.getElementById('itemsPerPage').addEventListener('change', function() {
+        itemsPerPage = parseInt(this.value);
+        currentPage = 1;
+        loadTableData();
+    });
+});
+
+// Load table data function
+async function loadTableData() {
+    showLoading(true);
+    
+    try {
+        // Simulate API call - replace with actual API endpoint
+        const data = await fetchApplications(currentPage, itemsPerPage, currentSearch);
+        
+        totalItems = data.total;
+        totalPages = Math.ceil(totalItems / itemsPerPage);
+        
+        renderTable(data.applications);
+        renderPagination();
+        updatePaginationInfo();
+        
+        // Show empty state if no data
+        document.getElementById('emptyState').style.display = data.applications.length === 0 ? 'block' : 'none';
+        
+    } catch (error) {
+        console.error('Error loading table data:', error);
+        showError('Failed to load applications. Please try again.');
+    } finally {
+        showLoading(false);
+    }
+}
+
+// API call to fetch applications
+async function fetchApplications(page, limit, search) {
+    try {
+        // Import API functions
+        const { getApplications } = await import('/js/api.js');
+        
+        // Call the API
+        const response = await getApplications(page, limit, search);
+        return response;
+    } catch (error) {
+        console.error('API call failed, falling back to dummy data:', error);
+        
+        // Fallback to dummy data if API fails
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        const allApplications = generateDummyData();
+        
+        let filteredApps = allApplications;
+        if (search) {
+            filteredApps = allApplications.filter(app => 
+                app.app_name.toLowerCase().includes(search.toLowerCase()) ||
+                app.publisher.toLowerCase().includes(search.toLowerCase()) ||
+                app.description.toLowerCase().includes(search.toLowerCase())
+            );
+        }
+        
+        const startIndex = (page - 1) * limit;
+        const endIndex = startIndex + limit;
+        const paginatedApps = filteredApps.slice(startIndex, endIndex);
+        
+        return {
+            applications: paginatedApps,
+            total: filteredApps.length,
+            page: page,
+            pages: Math.ceil(filteredApps.length / limit)
+        };
+    }
+}
+
+// Generate dummy data
+function generateDummyData() {
+    const apps = [
+        { id: 1, app_name: "Notepad", app_type: "windows", current_version: "1.0.0", publisher: "Microsoft", released_date: "2025-01-01", description: "Simple text editor", enable_tracking: true },
+        { id: 2, app_name: "Calculator", app_type: "windows", current_version: "2.1.0", publisher: "Microsoft", released_date: "2024-12-15", description: "Basic calculator app", enable_tracking: false },
+        { id: 3, app_name: "Chrome", app_type: "web", current_version: "120.0.0", publisher: "Google", released_date: "2024-11-20", description: "Web browser", enable_tracking: true },
+        { id: 4, app_name: "VS Code", app_type: "windows", current_version: "1.85.0", publisher: "Microsoft", released_date: "2024-10-30", description: "Code editor", enable_tracking: true },
+        { id: 5, app_name: "Photoshop", app_type: "windows", current_version: "25.0.0", publisher: "Adobe", released_date: "2024-09-15", description: "Image editing software", enable_tracking: false },
+        { id: 6, app_name: "Slack", app_type: "web", current_version: "4.35.0", publisher: "Slack Technologies", released_date: "2024-08-10", description: "Team communication", enable_tracking: true },
+        { id: 7, app_name: "Spotify", app_type: "windows", current_version: "1.2.25", publisher: "Spotify AB", released_date: "2024-07-05", description: "Music streaming", enable_tracking: true },
+        { id: 8, app_name: "Discord", app_type: "windows", current_version: "1.0.9", publisher: "Discord Inc.", released_date: "2024-06-20", description: "Voice and text chat", enable_tracking: false },
+        { id: 9, app_name: "Zoom", app_type: "windows", current_version: "5.16.0", publisher: "Zoom Video Communications", released_date: "2024-05-12", description: "Video conferencing", enable_tracking: true },
+        { id: 10, app_name: "Firefox", app_type: "web", current_version: "121.0.0", publisher: "Mozilla", released_date: "2024-04-18", description: "Web browser", enable_tracking: false },
+        { id: 11, app_name: "Telegram", app_type: "windows", current_version: "4.12.0", publisher: "Telegram FZ-LLC", released_date: "2024-03-25", description: "Messaging app", enable_tracking: true },
+        { id: 12, app_name: "VLC Player", app_type: "windows", current_version: "3.0.18", publisher: "VideoLAN", released_date: "2024-02-14", description: "Media player", enable_tracking: false }
+    ];
+    
+    return apps;
+}
+
+// Render table rows
+function renderTable(applications) {
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    
+    applications.forEach((app, index) => {
+        const globalIndex = (currentPage - 1) * itemsPerPage + index + 1;
+        const row = document.createElement('tr');
+        row.className = 'table-row';
+        row.dataset.id = app.id;
+        row.style.cursor = 'pointer';
+        
+        // Add click event for row selection
+        row.addEventListener('click', function() {
+            selectRow(this, app.id);
+        });
+        
+        row.innerHTML = `
+            <td>${globalIndex}</td>
+            <td><strong>${app.app_name}</strong></td>
+            <td><span class="badge bg-secondary">${app.app_type}</span></td>
+            <td>${app.current_version}</td>
+            <td>${app.publisher}</td>
+            <td>${formatDate(app.released_date)}</td>
+            <td>
+                <span class="badge ${app.enable_tracking ? 'bg-success' : 'bg-danger'}">
+                    ${app.enable_tracking ? 'Enabled' : 'Disabled'}
+                </span>
+            </td>
+            <td>
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn btn-outline-primary" onclick="editApplication(${app.id})" title="Edit">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" onclick="deleteApplication(${app.id})" title="Delete">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+}
+
+// Select row function
+function selectRow(row, id) {
+    // Remove previous selection
+    document.querySelectorAll('.table-row').forEach(r => {
+        r.classList.remove('table-active');
+    });
+    
+    // Add selection to clicked row
+    row.classList.add('table-active');
+    selectedRowId = id;
+    
+    console.log('Selected application ID:', id);
+}
+
+// Render pagination
+function renderPagination() {
+    const pagination = document.getElementById('paginationControls');
+    pagination.innerHTML = '';
+    
+    if (totalPages <= 1) return;
+    
+    // Previous button
+    const prevLi = document.createElement('li');
+    prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+    prevLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage - 1})">Previous</a>`;
+    pagination.appendChild(prevLi);
+    
+    // Page numbers
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, currentPage + 2);
+    
+    if (startPage > 1) {
+        const firstLi = document.createElement('li');
+        firstLi.className = 'page-item';
+        firstLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(1)">1</a>`;
+        pagination.appendChild(firstLi);
+        
+        if (startPage > 2) {
+            const ellipsisLi = document.createElement('li');
+            ellipsisLi.className = 'page-item disabled';
+            ellipsisLi.innerHTML = `<span class="page-link">...</span>`;
+            pagination.appendChild(ellipsisLi);
+        }
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        const li = document.createElement('li');
+        li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+        pagination.appendChild(li);
+    }
+    
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const ellipsisLi = document.createElement('li');
+            ellipsisLi.className = 'page-item disabled';
+            ellipsisLi.innerHTML = `<span class="page-link">...</span>`;
+            pagination.appendChild(ellipsisLi);
+        }
+        
+        const lastLi = document.createElement('li');
+        lastLi.className = 'page-item';
+        lastLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${totalPages})">${totalPages}</a>`;
+        pagination.appendChild(lastLi);
+    }
+    
+    // Next button
+    const nextLi = document.createElement('li');
+    nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+    nextLi.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage + 1})">Next</a>`;
+    pagination.appendChild(nextLi);
+}
+
+// Change page function
+function changePage(page) {
+    if (page < 1 || page > totalPages || page === currentPage) return;
+    
+    currentPage = page;
+    loadTableData();
+}
+
+// Update pagination info
+function updatePaginationInfo() {
+    const start = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+    const end = Math.min(currentPage * itemsPerPage, totalItems);
+    
+    document.getElementById('paginationInfo').textContent = 
+        `Showing ${start} to ${end} of ${totalItems} entries${currentSearch ? ` (filtered from total)` : ''}`;
+}
+
+// Utility functions
+function showLoading(show) {
+    document.getElementById('loadingSpinner').style.display = show ? 'block' : 'none';
+    document.querySelector('.table-responsive').style.display = show ? 'none' : 'block';
+}
+
+function showError(message) {
+    alert(message); // Replace with better error handling
+}
+
+function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString();
+}
+
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    currentSearch = '';
+    currentPage = 1;
+    loadTableData();
+}
+
+function refreshTable() {
+    loadTableData();
+}
+
+// Action functions (to be implemented)
+function editApplication(id) {
+    console.log('Edit application:', id);
+    alert(`Edit application with ID: ${id}`);
+}
+
+function deleteApplication(id) {
+    if (confirm('Are you sure you want to delete this application?')) {
+        console.log('Delete application:', id);
+        alert(`Delete application with ID: ${id}`);
+        // Refresh table after deletion
+        loadTableData();
+    }
+}
+</script>

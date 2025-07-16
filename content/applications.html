@@ -1,3 +1,272 @@
 <div class="container-fluid">
-  <h1>Applications</h1>
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1>Applications Management</h1>
+            <p class="text-muted">Manage your applications using the form on the left and view them in the table on the right.</p>
+        </div>
+    </div>
+    
+    <div class="row g-3">
+        <!-- Left Column - Application Form -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-file-earmark-plus me-2"></i>
+                            Application Form
+                        </h5>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="clear-form">
+                            <i class="bi bi-arrow-clockwise me-1"></i>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="applicationForm" class="needs-validation" novalidate>
+                        <!-- Row 1: App Name + App Type -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="appName" class="form-label">App Name *</label>
+                                    <input type="text" class="form-control" id="appName" name="app_name" required>
+                                    <div class="invalid-feedback">Please provide a valid app name.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="appType" class="form-label">App Type *</label>
+                                    <select class="form-select" id="appType" name="app_type" required>
+                                        <option value="">Choose...</option>
+                                        <option value="windows">Windows</option>
+                                        <option value="mac">Mac</option>
+                                        <option value="linux">Linux</option>
+                                        <option value="web">Web</option>
+                                        <option value="mobile">Mobile</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select a valid app type.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Row 2: Current Version + Released Date -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="currentVersion" class="form-label">Current Version *</label>
+                                    <input type="text" class="form-control" id="currentVersion" name="current_version" placeholder="1.0.0" required>
+                                    <div class="invalid-feedback">Please provide a valid version.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="releasedDate" class="form-label">Released Date *</label>
+                                    <input type="date" class="form-control" id="releasedDate" name="released_date" required>
+                                    <div class="invalid-feedback">Please provide a valid release date.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Row 3: Publisher (full width) -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="publisher" class="form-label">Publisher *</label>
+                                    <input type="text" class="form-control" id="publisher" name="publisher" required>
+                                    <div class="invalid-feedback">Please provide a valid publisher name.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Row 4: Download Link (full width) -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="downloadLink" class="form-label">Download Link</label>
+                                    <input type="url" class="form-control" id="downloadLink" name="download_link" placeholder="https://example.com/download">
+                                    <div class="invalid-feedback">Please provide a valid URL.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Row 5: Description (full width) -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter application description..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Row 6: Registered Date (full width) -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="registeredDate" class="form-label">Registered Date *</label>
+                                    <input type="date" class="form-control" id="registeredDate" name="registered_date" required>
+                                    <div class="invalid-feedback">Please provide a valid registration date.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tracking Settings -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">Tracking Settings</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="enableTracking" name="enable_tracking">
+                                        <label class="form-check-label" for="enableTracking">
+                                            Enable Tracking
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div id="trackingOptions" style="display: none;">
+                                    <div class="mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="trackUsage" name="track_usage">
+                                            <label class="form-check-label" for="trackUsage">
+                                                Track Usage
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="trackLocation" name="track_location">
+                                            <label class="form-check-label" for="trackLocation">
+                                                Track Location
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="trackCpuMemory" name="track_cm">
+                                            <label class="form-check-label" for="trackCpuMemory">
+                                                Track CPU/Memory
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-2">
+                                        <label for="trackInterval" class="form-label">Track Interval (minutes)</label>
+                                        <input type="number" class="form-control" id="trackInterval" name="track_intr" min="1" max="60" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Save Application
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" data-action="clear-form">
+                                <i class="bi bi-arrow-clockwise me-1"></i>
+                                Reset
+                            </button>
+                            <button type="button" class="btn btn-outline-info" data-action="load-sample">
+                                <i class="bi bi-file-earmark-text me-1"></i>
+                                Load Sample
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column - Applications Table -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-table me-2"></i>
+                            Applications Table
+                        </h5>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-action="refresh-table">
+                            <i class="bi bi-arrow-clockwise me-1"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Search Bar -->
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search applications...">
+                                <button class="btn btn-outline-secondary" type="button" data-action="clear-search">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <select class="form-select form-select-sm" id="itemsPerPage">
+                                <option value="5">5 per page</option>
+                                <option value="10" selected>10 per page</option>
+                                <option value="25">25 per page</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Loading Spinner -->
+                    <div id="loadingSpinner" class="text-center py-4" style="display: none;">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2 small">Loading applications...</p>
+                    </div>
+                    
+                    <!-- Table -->
+                    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                        <table class="table table-hover table-sm">
+                            <thead class="table-dark sticky-top">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">App Name</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Version</th>
+                                    <th scope="col">Publisher</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <!-- Table rows will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="emptyState" class="text-center py-4" style="display: none;">
+                        <i class="bi bi-inbox display-6 text-muted"></i>
+                        <h6 class="mt-2">No applications found</h6>
+                        <p class="text-muted small">Try adjusting your search or add new applications.</p>
+                    </div>
+                    
+                    <!-- Pagination Info and Controls -->
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <p id="paginationInfo" class="text-muted mb-0 small">Showing 0 to 0 of 0 entries</p>
+                        </div>
+                        <div class="col-6">
+                            <nav aria-label="Table pagination">
+                                <ul class="pagination pagination-sm justify-content-end mb-0" id="paginationControls">
+                                    <!-- Pagination buttons will be populated here -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

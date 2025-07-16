@@ -1,6 +1,7 @@
 import { loadPage } from './navigation.js';
 import { initializeTheme } from './theme.js';
 import { loadChart } from './charts.js';
+import './applications.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Load initial content
@@ -27,6 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     loadPage(page, e.currentTarget).then(() => {
                         if (page === 'content/dashboard.html') {
                             loadChart();
+                        } else if (page === 'content/applications.html') {
+                            // Initialize applications page after it's loaded
+                            if (window.initializeApplicationsPage) {
+                                window.initializeApplicationsPage();
+                            }
                         }
                     });
                 });

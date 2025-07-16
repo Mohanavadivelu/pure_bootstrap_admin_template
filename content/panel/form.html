@@ -1,0 +1,277 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Application Form</h2>
+                <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+            </div>
+            
+            <form id="applicationForm" class="needs-validation" novalidate>
+                <div class="row">
+                    <!-- Left Column -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="appName" class="form-label">App Name *</label>
+                            <input type="text" class="form-control" id="appName" name="app_name" required>
+                            <div class="invalid-feedback">Please provide a valid app name.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="appType" class="form-label">App Type *</label>
+                            <select class="form-select" id="appType" name="app_type" required>
+                                <option value="">Choose...</option>
+                                <option value="windows">Windows</option>
+                                <option value="mac">Mac</option>
+                                <option value="linux">Linux</option>
+                                <option value="web">Web</option>
+                                <option value="mobile">Mobile</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a valid app type.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="currentVersion" class="form-label">Current Version *</label>
+                            <input type="text" class="form-control" id="currentVersion" name="current_version" placeholder="1.0.0" required>
+                            <div class="invalid-feedback">Please provide a valid version.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="releasedDate" class="form-label">Released Date *</label>
+                            <input type="date" class="form-control" id="releasedDate" name="released_date" required>
+                            <div class="invalid-feedback">Please provide a valid release date.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="publisher" class="form-label">Publisher *</label>
+                            <input type="text" class="form-control" id="publisher" name="publisher" required>
+                            <div class="invalid-feedback">Please provide a valid publisher name.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="downloadLink" class="form-label">Download Link</label>
+                            <input type="url" class="form-control" id="downloadLink" name="download_link" placeholder="https://example.com/download">
+                            <div class="invalid-feedback">Please provide a valid URL.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter application description..."></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="registeredDate" class="form-label">Registered Date *</label>
+                            <input type="date" class="form-control" id="registeredDate" name="registered_date" required>
+                            <div class="invalid-feedback">Please provide a valid registration date.</div>
+                        </div>
+                        
+                        <!-- Tracking Settings -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Tracking Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="enableTracking" name="enable_tracking">
+                                        <label class="form-check-label" for="enableTracking">
+                                            Enable Tracking
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div id="trackingOptions" style="display: none;">
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="trackUsage" name="track_usage">
+                                            <label class="form-check-label" for="trackUsage">
+                                                Track Usage
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="trackLocation" name="track_location">
+                                            <label class="form-check-label" for="trackLocation">
+                                                Track Location
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="trackCpuMemory" name="track_cm">
+                                            <label class="form-check-label" for="trackCpuMemory">
+                                                Track CPU/Memory
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="trackInterval" class="form-label">Track Interval (minutes)</label>
+                                        <input type="number" class="form-control" id="trackInterval" name="track_intr" min="1" max="60" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Save Application
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="clearForm()">
+                                <i class="bi bi-arrow-clockwise me-1"></i>
+                                Reset
+                            </button>
+                            <button type="button" class="btn btn-outline-info" onclick="loadSampleData()">
+                                <i class="bi bi-file-earmark-text me-1"></i>
+                                Load Sample
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Toggle tracking options visibility
+document.getElementById('enableTracking').addEventListener('change', function() {
+    const trackingOptions = document.getElementById('trackingOptions');
+    trackingOptions.style.display = this.checked ? 'block' : 'none';
+});
+
+// Load sample data function
+function loadSampleData() {
+    const sampleData = {
+        app_name: "notepad",
+        app_type: "windows",
+        current_version: "1.0.0",
+        released_date: "2025-01-01",
+        publisher: "Microsoft",
+        description: "Simple text editor",
+        download_link: "https://microsoft.com/notepad",
+        enable_tracking: true,
+        track_usage: true,
+        track_location: false,
+        track_cm: false,
+        track_intr: 1,
+        registered_date: "2025-01-01"
+    };
+    
+    // Populate form fields
+    Object.keys(sampleData).forEach(key => {
+        const element = document.querySelector(`[name="${key}"]`);
+        if (element) {
+            if (element.type === 'checkbox') {
+                element.checked = sampleData[key];
+            } else {
+                element.value = sampleData[key];
+            }
+        }
+    });
+    
+    // Trigger tracking options visibility
+    document.getElementById('enableTracking').dispatchEvent(new Event('change'));
+}
+
+// Clear form function
+function clearForm() {
+    document.getElementById('applicationForm').reset();
+    document.getElementById('trackingOptions').style.display = 'none';
+    document.getElementById('applicationForm').classList.remove('was-validated');
+}
+
+// Form submission handler
+document.getElementById('applicationForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (this.checkValidity()) {
+        const formData = new FormData(this);
+        const data = {};
+        
+        // Convert form data to object
+        for (let [key, value] of formData.entries()) {
+            if (document.querySelector(`[name="${key}"]`).type === 'checkbox') {
+                data[key] = document.querySelector(`[name="${key}"]`).checked;
+            } else if (key === 'track_intr') {
+                data[key] = parseInt(value);
+            } else {
+                data[key] = value;
+            }
+        }
+        
+        // Structure the data according to JSON format
+        const applicationData = {
+            app_name: data.app_name,
+            app_type: data.app_type,
+            current_version: data.current_version,
+            released_date: data.released_date,
+            publisher: data.publisher,
+            description: data.description,
+            download_link: data.download_link,
+            enable_tracking: data.enable_tracking || false,
+            track: {
+                usage: data.track_usage || false,
+                location: data.track_location || false,
+                cpu_memory: {
+                    track_cm: data.track_cm || false,
+                    track_intr: data.track_intr || 1
+                }
+            },
+            registered_date: data.registered_date
+        };
+        
+        console.log('Application Data:', applicationData);
+        
+        // Save application via API
+        saveApplication(applicationData);
+    }
+    
+    this.classList.add('was-validated');
+});
+
+// Save application function
+async function saveApplication(applicationData) {
+    try {
+        // Show loading state
+        const submitBtn = document.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span>Saving...';
+        submitBtn.disabled = true;
+        
+        // Import API function
+        const { createApplication } = await import('/js/api.js');
+        
+        // Call API to save application
+        const result = await createApplication(applicationData);
+        
+        // Show success message
+        alert('Application saved successfully!');
+        
+        // Clear form after successful save
+        clearForm();
+        
+        console.log('Application saved:', result);
+        
+    } catch (error) {
+        console.error('Error saving application:', error);
+        alert('Failed to save application. Please try again.');
+    } finally {
+        // Restore button state
+        const submitBtn = document.querySelector('button[type="submit"]');
+        submitBtn.innerHTML = '<i class="bi bi-check-circle me-1"></i>Save Application';
+        submitBtn.disabled = false;
+    }
+}
+</script>
