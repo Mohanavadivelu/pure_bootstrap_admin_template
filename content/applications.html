@@ -25,22 +25,32 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="appName" class="form-label">App Name *</label>
-                                    <input type="text" class="form-control" id="appName" name="app_name" required>
-                                    <div class="invalid-feedback">Please provide a valid app name.</div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-app"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="appName" name="app_name" placeholder="Application Name" required>
+                                        <div class="invalid-feedback">Please provide a valid app name.</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="appType" class="form-label">App Type *</label>
-                                    <select class="form-select" id="appType" name="app_type" required>
-                                        <option value="">Choose...</option>
-                                        <option value="windows">Windows</option>
-                                        <option value="mac">Mac</option>
-                                        <option value="linux">Linux</option>
-                                        <option value="web">Web</option>
-                                        <option value="mobile">Mobile</option>
-                                    </select>
-                                    <div class="invalid-feedback">Please select a valid app type.</div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-laptop"></i>
+                                        </span>
+                                        <select class="form-select" id="appType" name="app_type" required>
+                                            <option value="">Choose Platform...</option>
+                                            <option value="windows">Windows</option>
+                                            <option value="mac">Mac</option>
+                                            <option value="linux">Linux</option>
+                                            <option value="web">Web</option>
+                                            <option value="mobile">Mobile</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select a valid app type.</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -50,15 +60,23 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="currentVersion" class="form-label">Current Version *</label>
-                                    <input type="text" class="form-control" id="currentVersion" name="current_version" placeholder="1.0.0" required>
-                                    <div class="invalid-feedback">Please provide a valid version.</div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">v</span>
+                                        <input type="text" class="form-control" id="currentVersion" name="current_version" placeholder="1.0.0" required>
+                                        <div class="invalid-feedback">Please provide a valid version.</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="releasedDate" class="form-label">Released Date *</label>
-                                    <input type="date" class="form-control" id="releasedDate" name="released_date" required>
-                                    <div class="invalid-feedback">Please provide a valid release date.</div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-calendar-event"></i>
+                                        </span>
+                                        <input type="date" class="form-control" id="releasedDate" name="released_date" required>
+                                        <div class="invalid-feedback">Please provide a valid release date.</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -68,8 +86,11 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label for="publisher" class="form-label">Publisher *</label>
-                                    <input type="text" class="form-control" id="publisher" name="publisher" required>
-                                    <div class="invalid-feedback">Please provide a valid publisher name.</div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">@</span>
+                                        <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Publisher Name" required>
+                                        <div class="invalid-feedback">Please provide a valid publisher name.</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -79,8 +100,11 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label for="downloadLink" class="form-label">Download Link</label>
-                                    <input type="url" class="form-control" id="downloadLink" name="download_link" placeholder="https://example.com/download">
-                                    <div class="invalid-feedback">Please provide a valid URL.</div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">https://</span>
+                                        <input type="text" class="form-control" id="downloadLink" name="download_link" placeholder="example.com/download">
+                                        <div class="invalid-feedback">Please provide a valid URL.</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +114,12 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter application description..."></textarea>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-text-paragraph"></i>
+                                        </span>
+                                        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter application description..."></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -100,8 +129,13 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label for="registeredDate" class="form-label">Registered Date *</label>
-                                    <input type="date" class="form-control" id="registeredDate" name="registered_date" required>
-                                    <div class="invalid-feedback">Please provide a valid registration date.</div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-calendar-plus"></i>
+                                        </span>
+                                        <input type="date" class="form-control" id="registeredDate" name="registered_date" required>
+                                        <div class="invalid-feedback">Please provide a valid registration date.</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -150,8 +184,11 @@
                                     </div>
                                     
                                     <div class="mb-2">
-                                        <label for="trackInterval" class="form-label">Track Interval (minutes)</label>
-                                        <input type="number" class="form-control" id="trackInterval" name="track_intr" min="1" max="60" value="1">
+                                        <label for="trackInterval" class="form-label">Track Interval</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="trackInterval" name="track_intr" min="1" max="60" value="1">
+                                            <span class="input-group-text">min</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
